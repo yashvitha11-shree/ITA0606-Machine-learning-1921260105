@@ -1,0 +1,82 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyOjlUfCuw4NyqUgjRj15vxu",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/yashvitha11-shree/ITA0606-Machine-learning-1921260105/blob/main/practical%20problem%201\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 2,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "g8n642EToA98",
+        "outputId": "55fef730-94b9-4be7-de07-351e4eb9dd4c"
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Start h: ['0', '0', '0', '0', '0', '0']\n",
+            "Positive -> ['Sunny', 'Warm', 'Normal', 'Strong', 'Warm', 'Same']\n",
+            "Final h: ['Sunny', 'Warm', 'Normal', 'Strong', 'Warm', 'Same']\n",
+            "Positive -> ['Sunny', 'Warm', '?', 'Strong', 'Warm', 'Same']\n",
+            "Final h: ['Sunny', 'Warm', '?', 'Strong', 'Warm', 'Same']\n",
+            "Negative -> ignore ['Sunny', 'Warm', '?', 'Strong', 'Warm', 'Same']\n",
+            "Final h: ['Sunny', 'Warm', '?', 'Strong', 'Warm', 'Same']\n",
+            "Positive -> ['Sunny', 'Warm', '?', 'Strong', '?', '?']\n",
+            "Final h: ['Sunny', 'Warm', '?', 'Strong', '?', '?']\n"
+          ]
+        }
+      ],
+      "source": [
+        "data = [\n",
+        "        ['Sunny','Warm','Normal','Strong','Warm','Same','Yes'],\n",
+        "        ['Sunny','Warm','High','Strong','Warm','Same','Yes'],\n",
+        "        ['Rainy','Cold','High','Strong','Warm','Change','No'],\n",
+        "        ['Sunny','Warm','High','Strong','Cool','Change','Yes'],\n",
+        "       ]\n",
+        "h = ['0','0','0','0','0','0']\n",
+        "print(\"Start h:\", h)\n",
+        "\n",
+        "for row in data:\n",
+        "    x = row[0:6]\n",
+        "    label = row[6]\n",
+        "    if label == 'Yes':\n",
+        "        for i in range(6):\n",
+        "            if h[i] == '0':\n",
+        "                h[i] = x[i]\n",
+        "            elif h[i] != x[i]:\n",
+        "               h[i] = '?'\n",
+        "        print(\"Positive ->\", h)\n",
+        "    else:\n",
+        "        print(\"Negative -> ignore\", h)\n",
+        "    print(\"Final h:\", h)\n"
+      ]
+    }
+  ]
+}
