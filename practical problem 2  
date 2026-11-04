@@ -1,0 +1,111 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyOHboj+JDxNIrc8z5ivDzlN",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/yashvitha11-shree/ITA0606-Machine-learning-1921260105/blob/main/practical%20problem%202%20%20\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 1,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "3CgI2MIRnw0S",
+        "outputId": "9a0590a6-4f76-4474-ef7c-a65ef773971e"
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Start S: ['0', '0', '0', '0', '0', '0']\n",
+            "Start G: [['?', '?', '?', '?', '?', '?']]\n",
+            "\n",
+            "After Ex1 YES ->\n",
+            "S = ['Sunny', 'Warm', 'Normal', 'Strong', 'Warm', 'Same']\n",
+            "G = [['?', '?', '?', '?', '?', '?']]\n",
+            "\n",
+            "After Ex2 YES ->\n",
+            "S = ['Sunny', 'Warm', '?', 'Strong', 'Warm', 'Same']\n",
+            "G = [['?', '?', '?', '?', '?', '?']]\n",
+            "\n",
+            "After Ex3 NO ->\n",
+            "S = ['Sunny', 'Warm', '?', 'Strong', 'Warm', 'Same']\n",
+            "G = [['Sunny', '?', '?', '?', '?', '?'], ['?', 'Warm', '?', '?', '?', '?'], ['?', '?', '?', '?', '?', 'Same']]\n",
+            "\n",
+            "After Ex4 YES ->\n",
+            "S = ['Sunny', 'Warm', '?', 'Strong', '?', '?']\n",
+            "G = [['Sunny', '?', '?', '?', '?', '?'], ['?', 'Warm', '?', '?', '?', '?']]\n",
+            "\n",
+            "--- FINAL ANSWER ---\n",
+            "Final S Boundary: ['Sunny', 'Warm', '?', 'Strong', '?', '?']\n",
+            "Final G Boundary: [['Sunny', '?', '?', '?', '?', '?'], ['?', 'Warm', '?', '?', '?', '?']]\n"
+          ]
+        }
+      ],
+      "source": [
+        "# Candidate-Elimination - Manual steps for EnjoySport dataset\n",
+        "S = ['0','0','0','0','0','0']\n",
+        "G = [['?','?','?','?','?','?']]\n",
+        "print(\"Start S:\", S)\n",
+        "print(\"Start G:\", G)\n",
+        "\n",
+        "# Example 1: Sunny Warm Normal Strong Warm Same Yes\n",
+        "S = ['Sunny','Warm','Normal','Strong','Warm','Same']\n",
+        "print(\"\\nAfter Ex1 YES ->\")\n",
+        "print(\"S =\", S)\n",
+        "print(\"G =\", G)\n",
+        "\n",
+        "# Example 2: Sunny Warm High Strong Warm Same Yes\n",
+        "S[2] = '?'\n",
+        "print(\"\\nAfter Ex2 YES ->\")\n",
+        "print(\"S =\", S)\n",
+        "print(\"G =\", G)\n",
+        "\n",
+        "# Example 3: Rainy Cold High Strong Warm Change No\n",
+        "# G will specialize to exclude Negative\n",
+        "G = [['Sunny','?','?','?','?','?'], ['?','Warm','?','?','?','?'], ['?','?','?','?','?','Same']]\n",
+        "print(\"\\nAfter Ex3 NO ->\")\n",
+        "print(\"S =\", S)\n",
+        "print(\"G =\", G)\n",
+        "\n",
+        "# Example 4: Sunny Warm High Strong Cool Change Yes\n",
+        "# S generalizes\n",
+        "S[4] = '?'\n",
+        "S[5] = '?'\n",
+        "# Remove from G that doesn't match S\n",
+        "G = [['Sunny','?','?','?','?','?'], ['?','Warm','?','?','?','?']]\n",
+        "print(\"\\nAfter Ex4 YES ->\")\n",
+        "print(\"S =\", S)\n",
+        "print(\"G =\", G)\n",
+        "\n",
+        "print(\"\\n--- FINAL ANSWER ---\")\n",
+        "print(\"Final S Boundary:\", S)\n",
+        "print(\"Final G Boundary:\", G)"
+      ]
+    }
+  ]
+}
