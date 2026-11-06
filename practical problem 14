@@ -1,0 +1,93 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyNoCs6thLEKncd2HeunfeQm",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/yashvitha11-shree/ITA0606-Machine-learning-1921260105/blob/main/practical%20problem%2014\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 1,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "8UIJPlpLI_FH",
+        "outputId": "cd0a12ee-dfd0-455d-9066-2208716d7dae"
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Predicted Price: [92.02367511 44.22307651]\n",
+            "Actual Price: [90, 45]\n",
+            "R2 Score: 0.9953591397009705\n",
+            "Accuracy ~ 99.53591397009704 %\n",
+            "New House [2000, 3, 5] Price = 101.47714034804737 Lakhs\n"
+          ]
+        },
+        {
+          "output_type": "stream",
+          "name": "stderr",
+          "text": [
+            "/usr/local/lib/python3.13/dist-packages/sklearn/utils/validation.py:2739: UserWarning: X does not have valid feature names, but LinearRegression was fitted with feature names\n",
+            "  warnings.warn(\n"
+          ]
+        }
+      ],
+      "source": [
+        "# Lab 14 - House Price Prediction - Linear Regression\n",
+        "import pandas as pd\n",
+        "from sklearn.model_selection import train_test_split\n",
+        "from sklearn.linear_model import LinearRegression\n",
+        "from sklearn.metrics import mean_squared_error, r2_score\n",
+        "\n",
+        "# Dataset - Area, Bedrooms, Age -> Price\n",
+        "data = {\n",
+        "'Area': [1000,1500,1800,2000,2400,3000,1200,2600,900,2200],\n",
+        "'Bedrooms': [2,3,3,4,4,5,2,4,1,4],\n",
+        "'Age': [5,10,2,8,15,3,20,7,12,4],\n",
+        "'Price': [50,75,90,105,120,150,60,135,45,115]\n",
+        "}\n",
+        "df = pd.DataFrame(data)\n",
+        "X = df[['Area','Bedrooms','Age']]\n",
+        "y = df['Price']\n",
+        "\n",
+        "X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)\n",
+        "model = LinearRegression()\n",
+        "model.fit(X_train, y_train)\n",
+        "pred = model.predict(X_test)\n",
+        "\n",
+        "print(\"Predicted Price:\", pred)\n",
+        "print(\"Actual Price:\", list(y_test))\n",
+        "print(\"R2 Score:\", r2_score(y_test, pred))\n",
+        "print(\"Accuracy ~\", r2_score(y_test, pred)*100, \"%\")\n",
+        "\n",
+        "# Predict New House: Area 2000, Bedrooms 3, Age 5\n",
+        "print(\"New House [2000, 3, 5] Price =\", model.predict([[2000,3,5]])[0], \"Lakhs\")"
+      ]
+    }
+  ]
+}
