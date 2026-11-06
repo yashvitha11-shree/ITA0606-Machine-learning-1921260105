@@ -1,0 +1,77 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyOsfwRXudz6xQ8qCv2HNOYh",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/yashvitha11-shree/ITA0606-Machine-learning-1921260105/blob/main/practical%20problem%204\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 1,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "f48DOFLwH1jK",
+        "outputId": "fe3389d8-55f6-409e-fc3b-2bda9740d746"
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Predictions: [0 0 0 0]\n",
+            "Accuracy: 50.0 %\n",
+            "Test [0,1] -> [0]\n",
+            "Test [1,1] -> [0]\n",
+            "Loss (Error) : 0.6930669874947013\n"
+          ]
+        }
+      ],
+      "source": [
+        "# Lab 4 - ANN with Backpropagation\n",
+        "import numpy as np\n",
+        "from sklearn.neural_network import MLPClassifier\n",
+        "from sklearn.metrics import accuracy_score\n",
+        "\n",
+        "# Dataset - XOR Problem (best for Backprop demo)\n",
+        "# X1, X2 -> Y\n",
+        "X = [[0,0],[0,1],[1,0],[1,1]]\n",
+        "y = [0,1,1,0]\n",
+        "\n",
+        "# MLP = Artificial Neural Network, algorithm='backprop' inside\n",
+        "model = MLPClassifier(hidden_layer_sizes=(4,), activation='logistic', max_iter=5000, random_state=1)\n",
+        "model.fit(X, y)\n",
+        "\n",
+        "print(\"Predictions:\", model.predict(X))\n",
+        "print(\"Accuracy:\", accuracy_score(y, model.predict(X))*100, \"%\")\n",
+        "\n",
+        "# Test New Sample\n",
+        "print(\"Test [0,1] ->\", model.predict([[0,1]]))\n",
+        "print(\"Test [1,1] ->\", model.predict([[1,1]]))\n",
+        "print(\"Loss (Error) :\", model.loss_)"
+      ]
+    }
+  ]
+}
