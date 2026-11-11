@@ -1,0 +1,98 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyOKFawXnKbOZuD4UiKtsCVa",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/yashvitha11-shree/ITA0606-Machine-learning-1921260105/blob/main/practical%20problem%2016\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 1,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "cJpHt6KKTY6K",
+        "outputId": "72c57a86-12f0-4362-e45a-a9f2c2f85104"
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Predicted: [1 0 1 1]\n",
+            "Actual:    [1, 0, 1, 1]\n",
+            "\n",
+            "Confusion Matrix:\n",
+            " [[1 0]\n",
+            " [0 3]]\n",
+            "Accuracy: 100.0 %\n",
+            "\n",
+            "New Customer [30, 55, 690] -> Loan Approved = Yes\n"
+          ]
+        },
+        {
+          "output_type": "stream",
+          "name": "stderr",
+          "text": [
+            "/usr/local/lib/python3.13/dist-packages/sklearn/utils/validation.py:2739: UserWarning: X does not have valid feature names, but GaussianNB was fitted with feature names\n",
+            "  warnings.warn(\n"
+          ]
+        }
+      ],
+      "source": [
+        "# Lab 16 - Bank Loan Prediction - Naive Bayes\n",
+        "import pandas as pd\n",
+        "from sklearn.model_selection import train_test_split\n",
+        "from sklearn.naive_bayes import GaussianNB\n",
+        "from sklearn.metrics import confusion_matrix, accuracy_score\n",
+        "\n",
+        "# Dataset - Age, Income, CreditScore, LoanApproved (1=Yes, 0=No)\n",
+        "data = {\n",
+        "'Age': [25,35,45,22,30,55,40,28,50,33,60,27],\n",
+        "'Income': [30,60,80,25,45,90,70,35,85,50,95,32],\n",
+        "'CreditScore': [600,700,750,580,650,800,720,620,780,680,810,610],\n",
+        "'LoanApproved': [0,1,1,0,1,1,1,0,1,1,1,0]\n",
+        "}\n",
+        "df = pd.DataFrame(data)\n",
+        "X = df[['Age','Income','CreditScore']]\n",
+        "y = df['LoanApproved']\n",
+        "\n",
+        "X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=0)\n",
+        "model = GaussianNB()\n",
+        "model.fit(X_train, y_train)\n",
+        "pred = model.predict(X_test)\n",
+        "\n",
+        "print(\"Predicted:\", pred)\n",
+        "print(\"Actual:   \", list(y_test))\n",
+        "print(\"\\nConfusion Matrix:\\n\", confusion_matrix(y_test, pred))\n",
+        "print(\"Accuracy:\", accuracy_score(y_test, pred)*100, \"%\")\n",
+        "\n",
+        "# New Customer: Age 30, Income 55, CreditScore 690\n",
+        "result = model.predict([[30,55,690]])[0]\n",
+        "print(\"\\nNew Customer [30, 55, 690] -> Loan Approved =\", \"Yes\" if result==1 else \"No\")"
+      ]
+    }
+  ]
+}
