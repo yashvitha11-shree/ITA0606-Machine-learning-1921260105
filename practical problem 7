@@ -1,0 +1,105 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyO9QvdOSlCc/a0MKAWTj5tH",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/yashvitha11-shree/ITA0606-Machine-learning-1921260105/blob/main/practical%20problem%207\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 6,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "kBi6vbbLEpWg",
+        "outputId": "75b44d98-125c-4f9b-86e4-7e4951988b24"
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Accuracy: 97.37%\n",
+            "\n",
+            "Confusion Matrix:\n",
+            "[[41  2]\n",
+            " [ 1 70]] \n",
+            "\n",
+            "Classification Report:\n",
+            "              precision    recall  f1-score   support\n",
+            "\n",
+            "   malignant       0.98      0.95      0.96        43\n",
+            "      benign       0.97      0.99      0.98        71\n",
+            "\n",
+            "    accuracy                           0.97       114\n",
+            "   macro avg       0.97      0.97      0.97       114\n",
+            "weighted avg       0.97      0.97      0.97       114\n",
+            "\n"
+          ]
+        }
+      ],
+      "source": [
+        "import numpy as np\n",
+        "from sklearn.datasets import load_breast_cancer\n",
+        "from sklearn.linear_model import LogisticRegression\n",
+        "from sklearn.metrics import accuracy_score, classification_report, confusion_matrix\n",
+        "from sklearn.model_selection import train_test_split\n",
+        "from sklearn.preprocessing import StandardScaler\n",
+        "\n",
+        "# 1. Load a binary classification dataset\n",
+        "data = load_breast_cancer()\n",
+        "X = data.data\n",
+        "y = data.target  # 0: Malignant, 1: Benign\n",
+        "\n",
+        "# 2. Split the dataset into training (80%) and testing (20%) sets\n",
+        "X_train, X_test, y_train, y_test = train_test_split(\n",
+        "    X, y, test_size=0.2, random_state=42\n",
+        "    )\n",
+        "\n",
+        "    # 3. Feature scaling (helps Logistic Regression converge faster and perform better)\n",
+        "scaler = StandardScaler()\n",
+        "X_train = scaler.fit_transform(X_train)\n",
+        "X_test = scaler.transform(X_test)\n",
+        "\n",
+        "    # 4. Initialize and train the Logistic Regression model\n",
+        "model = LogisticRegression(max_iter=1000)\n",
+        "model.fit(X_train, y_train)\n",
+        "\n",
+        "    # 5. Make predictions on the test set\n",
+        "y_pred = model.predict(X_test)\n",
+        "\n",
+        "    # 6. Evaluate the model\n",
+        "accuracy = accuracy_score(y_test, y_pred)\n",
+        "print(f\"Accuracy: {accuracy * 100:.2f}%\\n\")\n",
+        "\n",
+        "print(\"Confusion Matrix:\")\n",
+        "print(confusion_matrix(y_test, y_pred), \"\\n\")\n",
+        "\n",
+        "print(\"Classification Report:\")\n",
+        "print(classification_report(y_test, y_pred, target_names=data.target_names))"
+      ]
+    }
+  ]
+}
