@@ -1,0 +1,107 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyOTu6JMz2eiEjAGoaPyYBRE",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/yashvitha11-shree/ITA0606-Machine-learning-1921260105/blob/main/practical%20problem%2018\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 1,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "uXhhro1z6NVI",
+        "outputId": "2ad2128a-e8e6-46b3-fa7a-09d9d7427b4a"
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Perceptron Accuracy: 84.21%\n",
+            "\n",
+            "Confusion Matrix:\n",
+            " [[15  0  0]\n",
+            " [ 1 10  0]\n",
+            " [ 0  5  7]] \n",
+            "\n",
+            "Classification Report:\n",
+            "               precision    recall  f1-score   support\n",
+            "\n",
+            "      setosa       0.94      1.00      0.97        15\n",
+            "  versicolor       0.67      0.91      0.77        11\n",
+            "   virginica       1.00      0.58      0.74        12\n",
+            "\n",
+            "    accuracy                           0.84        38\n",
+            "   macro avg       0.87      0.83      0.82        38\n",
+            "weighted avg       0.88      0.84      0.84        38\n",
+            "\n",
+            "Predicted Species for New Sample: versicolor\n"
+          ]
+        }
+      ],
+      "source": [
+        "import numpy as np\n",
+        "from sklearn.datasets import load_iris\n",
+        "from sklearn.model_selection import train_test_split\n",
+        "from sklearn.preprocessing import StandardScaler\n",
+        "from sklearn.linear_model import Perceptron\n",
+        "from sklearn.metrics import accuracy_score, classification_report, confusion_matrix\n",
+        "\n",
+        "# 1. Load the Iris dataset\n",
+        "iris = load_iris()\n",
+        "X = iris.data\n",
+        "y = iris.target\n",
+        "\n",
+        "# 2. Split into training (75%) and testing (25%) sets\n",
+        "X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42)\n",
+        "\n",
+        "# 3. Scale features for faster and more stable Perceptron convergence\n",
+        "scaler = StandardScaler()\n",
+        "X_train_scaled = scaler.fit_transform(X_train)\n",
+        "X_test_scaled = scaler.transform(X_test)\n",
+        "\n",
+        "# 4. Initialize and train the Perceptron classifier\n",
+        "perceptron = Perceptron(max_iter=1000, eta0=0.1, random_state=42)\n",
+        "perceptron.fit(X_train_scaled, y_train)\n",
+        "\n",
+        "# 5. Make predictions on the test set\n",
+        "y_pred = perceptron.predict(X_test_scaled)\n",
+        "\n",
+        "# 6. Evaluate the model\n",
+        "print(f\"Perceptron Accuracy: {accuracy_score(y_test, y_pred) * 100:.2f}%\\n\")\n",
+        "print(\"Confusion Matrix:\\n\", confusion_matrix(y_test, y_pred), \"\\n\")\n",
+        "print(\"Classification Report:\\n\", classification_report(y_test, y_pred, target_names=iris.target_names))\n",
+        "\n",
+        "# 7. Predict the species for a new flower sample\n",
+        "# [Sepal Length, Sepal Width, Petal Length, Petal Width]\n",
+        "new_flower = scaler.transform([[5.8, 2.7, 5.1, 1.9]])\n",
+        "prediction = perceptron.predict(new_flower)[0]\n",
+        "print(f\"Predicted Species for New Sample: {iris.target_names[prediction]}\")"
+      ]
+    }
+  ]
+}
