@@ -1,0 +1,97 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyOXlK6tgidyZcKVfU78hOrC",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/yashvitha11-shree/ITA0606-Machine-learning-1921260105/blob/main/practical%20problem%2013\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 5,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "dAA68kziytDC",
+        "outputId": "d1a3782c-fecc-48e1-d4fc-44f4333bf9d9"
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Mean Squared Error (MSE): 1.6056\n",
+            "R-squared Score (R2): 0.9333\n",
+            "\n",
+            "Predicted Car Selling Price: 9.64 Lakhs\n"
+          ]
+        }
+      ],
+      "source": [
+        "import pandas as pd\n",
+        "import numpy as np\n",
+        "from sklearn.model_selection import train_test_split\n",
+        "from sklearn.ensemble import RandomForestRegressor\n",
+        "from sklearn.metrics import mean_squared_error, r2_score\n",
+        "\n",
+        "# 1. Create a sample dataset representing car specifications and prices\n",
+        "data = {\n",
+        "    'Year': [2015, 2018, 2012, 2020, 2016, 2019, 2014, 2021, 2017, 2013, 2022, 2018],\n",
+        "        'Present_Price': [6.5, 9.8, 4.2, 12.5, 7.0, 10.2, 5.5, 14.0, 8.2, 4.8, 15.5, 9.5],  # in Lakhs\n",
+        "            'Kms_Driven': [45000, 22000, 78000, 12000, 38000, 18000, 62000, 8000, 31000, 70000, 5000, 25000],\n",
+        "                'Fuel_Type': ['Petrol', 'Diesel', 'Petrol', 'Diesel', 'Petrol', 'Diesel', 'Petrol', 'Diesel', 'Petrol', 'Petrol', 'Diesel', 'Petrol'],\n",
+        "                    'Transmission': ['Manual', 'Manual', 'Manual', 'Automatic', 'Manual', 'Automatic', 'Manual', 'Automatic', 'Manual', 'Manual', 'Automatic', 'Manual'],\n",
+        "                        'Selling_Price': [4.1, 7.5, 2.3, 10.8, 4.8, 8.4, 3.2, 12.2, 6.0, 2.8, 13.8, 7.1]   # Target (in Lakhs)\n",
+        "                        }\n",
+        "\n",
+        "df = pd.DataFrame(data)\n",
+        "\n",
+        "                        # 2. Convert categorical columns ('Fuel_Type', 'Transmission') into numerical format using One-Hot Encoding\n",
+        "df_encoded = pd.get_dummies(df, columns=['Fuel_Type', 'Transmission'], drop_first=True)\n",
+        "\n",
+        "                        # 3. Separate features (X) and target variable (y)\n",
+        "X = df_encoded.drop('Selling_Price', axis=1)\n",
+        "y = df_encoded['Selling_Price']\n",
+        "\n",
+        "                        # 4. Split the dataset into training (75%) and testing (25%) sets\n",
+        "X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42)\n",
+        "\n",
+        "                        # 5. Initialize and train the Random Forest Regressor\n",
+        "model = RandomForestRegressor(n_estimators=100, random_state=42)\n",
+        "model.fit(X_train, y_train)\n",
+        "\n",
+        "                        # 6. Evaluate the model on the test set\n",
+        "y_pred = model.predict(X_test)\n",
+        "print(f\"Mean Squared Error (MSE): {mean_squared_error(y_test, y_pred):.4f}\")\n",
+        "print(f\"R-squared Score (R2): {r2_score(y_test, y_pred):.4f}\\n\")\n",
+        "\n",
+        "                        # 7. Predict the selling price for a new car sample\n",
+        "                        # Features: [Year, Present_Price, Kms_Driven, Fuel_Type_Petrol, Transmission_Manual]\n",
+        "new_car = pd.DataFrame([[2020, 11.0, 15000, 0, 0]], columns=X.columns)\n",
+        "predicted_price = model.predict(new_car)\n",
+        "print(f\"Predicted Car Selling Price: {predicted_price[0]:.2f} Lakhs\")"
+      ]
+    }
+  ]
+}
