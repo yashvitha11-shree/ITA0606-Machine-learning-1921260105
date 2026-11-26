@@ -1,4 +1,4 @@
-https://colab.research.google.com/github/google-gemini/cookbook/blob/main/quickstarts/Get_started.ipynb#scrollTo=vS_B6pfw-hbR&line=11&uniqifier=1
+
     import pandas as pd
 
 data = [
@@ -23,3 +23,6 @@ for row in data:
                     hypothesis[i] = '?'
 
 print("Final Hypothesis:", hypothesis)
+
+Output:
+Final Hypothesis: ['Sunny', 'Warm', '?', 'Strong', 'Warm', 'Same']
